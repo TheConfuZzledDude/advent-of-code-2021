@@ -9,7 +9,11 @@ fn main() -> Result<(), Box<dyn error::Error>> {
         .filter_map(|line| {
             let line = line.ok()?;
             let split = line.trim().split_whitespace().collect::<Vec<_>>();
-            Some((split[0].to_lowercase(), split[1].parse::<i32>().ok()?))
+            if split.len() == 2 {
+                Some((split[0].to_lowercase(), split[1].parse::<i32>().ok()?))
+            } else {
+                None
+            }
         })
         .fold(
             (0, 0, 0),
@@ -20,6 +24,7 @@ fn main() -> Result<(), Box<dyn error::Error>> {
                 _ => acc,
             },
         );
+        
 
     println!("Total is {}", result.0 * result.1);
 
